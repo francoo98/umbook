@@ -1,0 +1,43 @@
+
+application {
+  config {
+    baseName umbook,
+    applicationType monolith,
+    packageName ar.edu.um.isa,
+    authenticationType jwt,
+    prodDatabaseType mariadb,
+    clientFramework react,
+    testFrameworks [cypress]
+  }
+  entities *
+}
+
+entity Profile {
+    id Long
+	username String
+	password String
+	email String
+    creacion LocalDate
+}
+
+entity Post {
+	id Long
+	title String
+	contents String
+}
+
+relationship ManyToMany{
+	Profile{follows} to Profile{followedBy}
+}
+
+relationship OneToMany {
+	Profile{created} to Post{createdBy}
+}
+
+relationship ManyToMany {
+	Post{like} to Profile{likes}
+}
+
+relationship OneToOne {
+  Profile{ownedBy} to User{Owns}
+}
